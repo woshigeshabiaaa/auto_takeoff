@@ -1,0 +1,4 @@
+Header header
+std_msgs/Bool wind_gust_on
+std_msgs/Float32 wind_gust_mean
+geometry_msgs/Vector3 wind_gust_direction

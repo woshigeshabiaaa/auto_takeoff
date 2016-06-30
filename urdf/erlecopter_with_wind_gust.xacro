@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+
+<robot name="erlecopter" xmlns:xacro="http://ros.org/wiki/xacro">
+	<!-- Instantiate firefly with a generic pose sensor. -->
+	<xacro:include filename="$(find auto_takeoff)/urdf/erlecopter_base.xacro" >
+
+	</xacro:include>
+
+	<!-- Macro to add the wind plugin. -->
+	<xacro:macro name="wind_plugin_macro"
+	             params="namespace xyz_offset wind_direction wind_force_mean
+      wind_gust_direction wind_gust_duration wind_gust_start
+      wind_gust_force_mean">
+		<gazebo>
+			<plugin filename="libmy_wind_plugin.so" name="wind_plugin">
+				<frameId>base_link</frameId>
+				<linkName>base_link</linkName>
+				<robotNamespace>${namespace}</robotNamespace>
+				<xyzOffset>${xyz_offset}</xyzOffset> <!-- [m] [m] [m] -->
+				<windDirection>${wind_direction}</windDirection>
+				<windForceMean>${wind_force_mean}</windForceMean> <!-- [N] -->
+				<windGustDirection>${wind_gust_direction}</windGustDirection>
+				<windGustDuration>${wind_gust_duration}</windGustDuration> <!-- [s] -->
+				<windGustStart>${wind_gust_start}</windGustStart> <!-- [s] -->
+				<windGustForceMean>${wind_gust_force_mean}</windGustForceMean> <!-- [N] -->
+			</plugin>
+		</gazebo>
+	</xacro:macro>
+
+	<!-- Add a wind gust starting at 20s and lasting for 40s. -->
+	<xacro:wind_plugin_macro
+			namespace="${namespace}"
+			xyz_offset="0 0 0"
+			wind_direction="1 0 0"
+			wind_force_mean="0"
+			wind_gust_direction="1 1 0"
+			wind_gust_duration="60"
+			wind_gust_start="30"
+			wind_gust_force_mean="10"
+	>
+	</xacro:wind_plugin_macro>
+
+</robot>
+
